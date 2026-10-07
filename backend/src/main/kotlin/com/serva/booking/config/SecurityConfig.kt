@@ -6,7 +6,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.web.SecurityFilterChain
 
 /**
- * TEMPORARY setup: /api/courts is public so we can test the endpoint.
+ * TEMPORARY setup: courts and availability are public so we can test them.
  * Everything else requires authentication. We replace this with JWT login later.
  */
 @Configuration
@@ -17,7 +17,7 @@ class SecurityConfig {
         http
             .csrf { it.disable() }
             .authorizeHttpRequests {
-                it.requestMatchers("/api/courts/**").permitAll()
+                it.requestMatchers("/api/courts/**", "/api/availability/**").permitAll()
                     .anyRequest().authenticated()
             }
         return http.build()
