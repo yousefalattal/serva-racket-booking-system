@@ -27,8 +27,9 @@ class SecurityConfig(private val jwtService: JwtService) {
             .exceptionHandling { it.authenticationEntryPoint(HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)) }
             .authorizeHttpRequests {
                 it.requestMatchers("/api/auth/register", "/api/auth/login").permitAll()
+                    .requestMatchers("/error").permitAll()
                     .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                    .anyRequest().authenticated()   // members must be logged in for everything else
+                    .anyRequest().authenticated()
             }
             .addFilterBefore(JwtAuthFilter(jwtService), UsernamePasswordAuthenticationFilter::class.java)
         return http.build()
